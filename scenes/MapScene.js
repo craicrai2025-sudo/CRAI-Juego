@@ -1,37 +1,42 @@
 class MapScene extends Phaser.Scene {
 
-    constructor(){
-        super("MapScene");
-    }
+constructor(){
+super("MapScene");
+}
 
-    preload(){
+preload(){
 
-        // imágenes
-        this.load.image("mapa","assets/mapa.png");
-        this.load.image("avatar","assets/avatar.png");
+this.load.image("mapa","assets/mapa.png");
+this.load.image("avatar","assets/avatar.png");
 
-    }
+}
 
-    create(){
+create(){
 
-        // fondo del mapa
-        this.add.image(600,350,"mapa");
+this.add.image(600,350,"mapa");
 
-        // avatar
-        this.avatar = this.physics.add.sprite(600,500,"avatar");
+this.avatar = this.physics.add.sprite(600,350,"avatar");
 
-        // click para mover avatar
-        this.input.on("pointerdown",(pointer)=>{
+this.cursors = this.input.keyboard.createCursorKeys();
 
-            this.tweens.add({
-                targets:this.avatar,
-                x:pointer.x,
-                y:pointer.y,
-                duration:800
-            });
+}
 
-        });
+update(){
 
-    }
+if(this.cursors.left.isDown){
+this.avatar.x -= 3;
+}
+else if(this.cursors.right.isDown){
+this.avatar.x += 3;
+}
+
+if(this.cursors.up.isDown){
+this.avatar.y -= 3;
+}
+else if(this.cursors.down.isDown){
+this.avatar.y += 3;
+}
+
+}
 
 }
