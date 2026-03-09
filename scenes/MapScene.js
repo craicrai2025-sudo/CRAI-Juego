@@ -16,6 +16,7 @@ create(){
 this.add.image(600,350,"mapa");
 
 this.avatar = this.physics.add.sprite(600,350,"avatar");
+this.avatar.setScale(0.6);
 
 this.cursors = this.input.keyboard.createCursorKeys();
 
