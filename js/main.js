@@ -2,7 +2,7 @@ const config = {
     type: Phaser.AUTO,
     width: 1200,
     height: 700,
-    parent: 'game',
+    parent: "game",
     scene: [MapScene]
 };
 
