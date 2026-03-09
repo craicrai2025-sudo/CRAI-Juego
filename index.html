@@ -7,28 +7,12 @@
 
 <body>
 
-<h1>Juego CRAI en desarrollo</h1>
-
 <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
+<script src="js/main.js"></script>
+<script src="scenes/MapScene.js"></script>
 
-<script>
-
-const config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    backgroundColor: '#18216d',
-    scene: {
-        create: function () {
-            this.add.text(200, 250, 'Motor del juego cargado!', {
-                fontSize: '32px',
-                fill: '#ffffff'
-            });
-        }
-    }
-};
-
-const game = new Phaser.Game(config);
+</body>
+</html>
 
 </script>
 
