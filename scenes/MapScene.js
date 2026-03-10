@@ -32,8 +32,8 @@ this.targetY = null;
 this.floorMinX = 0;
 this.floorMaxX = 1200;
 
-this.floorMinY = 440;   // justo debajo del mueble
-this.floorMaxY = 640;   // hasta el borde inferior de la pantalla
+this.floorMinY = 430;   // justo debajo del mueble
+this.floorMaxY = 620;   // hasta el borde inferior de la pantalla
 
 // EVENTO DE CLIC
 
