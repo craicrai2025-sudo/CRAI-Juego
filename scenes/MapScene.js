@@ -33,7 +33,7 @@ this.floorMinX = 50;
 this.floorMaxX = 1150;
 
 this.floorMinY = 420;
-this.floorMaxY = 700;
+this.floorMaxY = 600;
 
 // EVENTO DE CLIC
 
