@@ -32,8 +32,8 @@ this.targetY = null;
 this.floorMinX = 50;
 this.floorMaxX = 1150;
 
-this.floorMinY = 050;
-this.floorMaxY = 400;
+this.floorMinY = 420;
+this.floorMaxY = 700;
 
 // EVENTO DE CLIC
 
