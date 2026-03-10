@@ -39,7 +39,7 @@ this.targetY = pointer.y;
 
 update(){
 
-let speed = 3;
+let speed = 5;
 
 // MOVIMIENTO CON TECLADO
 
@@ -83,8 +83,8 @@ let distance = Math.sqrt(dx * dx + dy * dy);
 
 if(distance > 5){
 
-this.avatar.x += dx * 0.02;
-this.avatar.y += dy * 0.02;
+this.avatar.x += dx * 0.01;
+this.avatar.y += dy * 0.01;
 
 }else{
 
