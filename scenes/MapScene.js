@@ -83,8 +83,8 @@ let distance = Math.sqrt(dx * dx + dy * dy);
 
 if(distance > 5){
 
-this.avatar.x += dx * 0.05;
-this.avatar.y += dy * 0.05;
+this.avatar.x += dx * 0.02;
+this.avatar.y += dy * 0.02;
 
 }else{
 
