@@ -29,11 +29,11 @@ this.targetY = null;
 
 // LIMITES DEL PISO (RECTANGULO CAMINABLE)
 
-this.floorMinX = 50;
-this.floorMaxX = 1150;
+this.floorMinX = 0;
+this.floorMaxX = 1200;
 
-this.floorMinY = 200;
-this.floorMaxY = 500;
+this.floorMinY = 460;   // justo debajo del mueble
+this.floorMaxY = 700;   // hasta el borde inferior de la pantalla
 
 // EVENTO DE CLIC
 
