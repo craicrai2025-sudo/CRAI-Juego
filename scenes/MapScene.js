@@ -32,8 +32,8 @@ this.targetY = null;
 this.floorMinX = 50;
 this.floorMaxX = 1150;
 
-this.floorMinY = 200;
-this.floorMaxY = 500;
+this.floorMinY = 100;
+this.floorMaxY = 460;
 
 // EVENTO DE CLIC
 
@@ -48,7 +48,7 @@ this.targetY = pointer.y;
 
 update(){
 
-let speed = 1.5;
+let speed = 1;
 
 
 // MOVIMIENTO CON TECLADO
