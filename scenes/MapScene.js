@@ -20,18 +20,16 @@ this.add.image(600,350,"mapa");
 this.avatar = this.physics.add.sprite(600,350,"avatar");
 this.avatar.setScale(0.6);
 
-// CONTROLES DE TECLADO
+// CONTROLES TECLADO
 this.cursors = this.input.keyboard.createCursorKeys();
 
 // DESTINO DEL CLIC
-this.targetX = null;
-this.targetY = null;
+this.target = null;
 
-// DETECTAR CLIC DEL MOUSE
+// DETECTAR CLIC
 this.input.on("pointerdown",(pointer)=>{
 
-this.targetX = pointer.x;
-this.targetY = pointer.y;
+this.target = {x:pointer.x, y:pointer.y};
 
 });
 
@@ -41,60 +39,60 @@ update(){
 
 let speed = 3;
 
-// MOVIMIENTO CON FLECHAS
+// MOVIMIENTO CON TECLADO
 
 if(this.cursors.left.isDown){
 
 this.avatar.x -= speed;
-this.targetX = null;
+this.target = null;
 
 }
-
 else if(this.cursors.right.isDown){
 
 this.avatar.x += speed;
-this.targetX = null;
+this.target = null;
 
 }
 
 if(this.cursors.up.isDown){
 
 this.avatar.y -= speed;
-this.targetX = null;
+this.target = null;
 
 }
-
 else if(this.cursors.down.isDown){
 
 this.avatar.y += speed;
-this.targetX = null;
+this.target = null;
 
 }
 
 
 // MOVIMIENTO CON CLIC
 
-if(this.targetX !== null){
+if(this.target){
 
-let dx = this.targetX - this.avatar.x;
-let dy = this.targetY - this.avatar.y;
+let dx = this.target.x - this.avatar.x;
+let dy = this.target.y - this.avatar.y;
 
 let distance = Math.sqrt(dx*dx + dy*dy);
 
 if(distance > 5){
 
-this.avatar.x += dx * 0.02;
-this.avatar.y += dy * 0.02;
+this.avatar.x += dx * 0.05;
+this.avatar.y += dy * 0.05;
 
 }else{
 
-this.targetX = null;
-this.targetY = null;
+this.target = null;
 
 }
 
 }
 
+}
+
+}
 }
 
 }
