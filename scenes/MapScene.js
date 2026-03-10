@@ -48,7 +48,7 @@ this.targetY = pointer.y;
 
 update(){
 
-let speed = 3;
+let speed = 2.5;
 
 
 // MOVIMIENTO CON TECLADO
