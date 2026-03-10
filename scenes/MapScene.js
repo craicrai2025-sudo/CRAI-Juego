@@ -16,24 +16,27 @@ create(){
 // MAPA
 this.add.image(600,350,"mapa");
 
-// AVATAR
-this.avatar = this.physics.add.sprite(600,350,"avatar");
+// AVATAR (empieza en el piso)
+this.avatar = this.physics.add.sprite(600,550,"avatar");
 this.avatar.setScale(0.6);
 
-// CONTROLES DE TECLADO
+// CONTROLES TECLADO
 this.cursors = this.input.keyboard.createCursorKeys();
 
-// VARIABLES PARA MOVIMIENTO CON CLIC
+// VARIABLES PARA CLIC
 this.targetX = null;
 this.targetY = null;
 
-// LIMITES DEL MAPA
-this.minX = 100;
-this.maxX = 1100;
-this.minY = 100;
-this.maxY = 600;
+// LIMITES DEL PISO (RECTANGULO CAMINABLE)
+
+this.floorMinX = 50;
+this.floorMaxX = 1150;
+
+this.floorMinY = 420;
+this.floorMaxY = 680;
 
 // EVENTO DE CLIC
+
 this.input.on("pointerdown",(pointer)=>{
 
 this.targetX = pointer.x;
@@ -47,6 +50,7 @@ update(){
 
 let speed = 1.5;
 
+
 // MOVIMIENTO CON TECLADO
 
 if(this.cursors.left.isDown){
@@ -55,6 +59,7 @@ this.avatar.x -= speed;
 this.targetX = null;
 
 }
+
 else if(this.cursors.right.isDown){
 
 this.avatar.x += speed;
@@ -68,12 +73,14 @@ this.avatar.y -= speed;
 this.targetX = null;
 
 }
+
 else if(this.cursors.down.isDown){
 
 this.avatar.y += speed;
 this.targetX = null;
 
 }
+
 
 
 // MOVIMIENTO CON CLIC
@@ -100,24 +107,23 @@ this.targetY = null;
 }
 
 
-// LIMITES DEL MAPA
 
-if(this.avatar.x < this.minX){
-this.avatar.x = this.minX;
+// LIMITES DEL PISO (RECTANGULO)
+
+if(this.avatar.x < this.floorMinX){
+this.avatar.x = this.floorMinX;
 }
 
-if(this.avatar.x > this.maxX){
-this.avatar.x = this.maxX;
+if(this.avatar.x > this.floorMaxX){
+this.avatar.x = this.floorMaxX;
 }
 
-if(this.avatar.y < this.minY){
-this.avatar.y = this.minY;
+if(this.avatar.y < this.floorMinY){
+this.avatar.y = this.floorMinY;
 }
 
-if(this.avatar.y > this.maxY){
-this.avatar.y = this.maxY;
-}
-
+if(this.avatar.y > this.floorMaxY){
+this.avatar.y = this.floorMaxY;
 }
 
 }
