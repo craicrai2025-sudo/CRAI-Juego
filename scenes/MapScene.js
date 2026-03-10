@@ -77,10 +77,10 @@ let dy = this.target.y - this.avatar.y;
 
 let distance = Math.sqrt(dx*dx + dy*dy);
 
-if(distance > 5){
+if(distance > 4){
 
-this.avatar.x += dx * 0.05;
-this.avatar.y += dy * 0.05;
+this.avatar.x += dx * 0.04;
+this.avatar.y += dy * 0.04;
 
 }else{
 
