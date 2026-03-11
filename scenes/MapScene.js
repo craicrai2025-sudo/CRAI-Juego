@@ -6,6 +6,7 @@ super("MapScene");
 
 preload(){
 
+this.load.image("flecha","assets/flecha.png");
 this.load.image("mapa","assets/mapa.png");
 this.load.image("avatar","assets/avatar.png");
 
@@ -13,6 +14,17 @@ this.load.image("avatar","assets/avatar.png");
 
 create(){
 
+//Flecha 1
+this.flecha = this.add.image(250,420,"flecha");
+this.flecha.setScale(0.3);
+this.flecha.setInteractive();
+
+this.flecha.on("pointerdown",()=>{
+
+this.scene.start("DomiciliosScene");
+
+});
+  
 // MAPA
 this.add.image(600,350,"mapa");
 
