@@ -10,4 +10,6 @@ const config = {
     scene:[MapScene]
 };
 
+scene:[MapScene, DomiciliosScene]
+
 const game = new Phaser.Game(config);
