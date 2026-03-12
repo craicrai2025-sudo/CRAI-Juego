@@ -42,10 +42,10 @@ this.interactIcon = this.add.text(
 "E",
 {
 font:"28px Arial",
-fill:"#ffffff",
-backgroundColor:"#000000"
+fill:"#ffffff"
 })
 .setPadding(6)
+.setBackgroundColor("#000000")
 .setDepth(300)
 .setVisible(false)
 
