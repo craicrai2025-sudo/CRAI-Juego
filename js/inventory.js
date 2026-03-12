@@ -2,67 +2,135 @@ class Inventory {
 
 constructor(scene){
 
-this.scene = scene;
-this.items = [];
-this.icons = [];
+this.scene = scene
+this.items = []
 
-// fondo inventario
-this.background = scene.add.rectangle(
-1000,
-80,
-340,
-120,
+this.open = false
+this.icons = []
+
+// BOTON LIBRO
+this.button = scene.add.image(1150,60,"libro")
+.setScale(0.07)
+.setDepth(500)
+.setInteractive()
+
+this.button.on("pointerdown",()=>{
+
+this.toggle()
+
+})
+
+// PANEL INVENTARIO
+this.panel = scene.add.rectangle(
+600,
+350,
+500,
+350,
 0x000000,
-0.6
-).setDepth(200);
+0.8
+)
+.setDepth(400)
+.setVisible(false)
 
-// slots
-this.slots = [];
+// BOTON CERRAR
+this.closeButton = scene.add.text(
+820,
+200,
+"X",
+{
+font:"28px Arial",
+fill:"#ffffff"
+})
+.setDepth(401)
+.setInteractive()
+.setVisible(false)
 
-for(let i=0;i<5;i++){
+this.closeButton.on("pointerdown",()=>{
+
+this.toggle()
+
+})
+
+// SLOTS
+this.slots = []
+
+let startX = 450
+let startY = 260
+let index = 0
+
+for(let row=0;row<2;row++){
+
+for(let col=0;col<5;col++){
 
 let slot = scene.add.rectangle(
-880 + (i*65),
-80,
-55,
-55,
+startX + col*80,
+startY + row*80,
+60,
+60,
 0xffffff,
-0.2
+0.15
 )
 .setStrokeStyle(2,0xffffff)
-.setDepth(201);
+.setDepth(401)
+.setVisible(false)
 
-this.slots.push(slot);
+this.slots.push(slot)
+
+index++
 
 }
+
+}
+
+}
+
+toggle(){
+
+this.open = !this.open
+
+this.panel.setVisible(this.open)
+this.closeButton.setVisible(this.open)
+
+this.slots.forEach(s=>s.setVisible(this.open))
+
+this.icons.forEach(i=>i.setVisible(this.open))
 
 }
 
 addItem(texture){
 
-let index = this.items.length;
+if(this.items.includes(texture)) return
 
-this.items.push(texture);
+this.items.push(texture)
+
+let index = this.items.length-1
+
+let slot = this.slots[index]
 
 let icon = this.scene.add.image(
-880 + (index*65),
-80,
+slot.x,
+slot.y,
 texture
 )
 .setScale(0.08)
-.setDepth(202)
-.setInteractive({ draggable:true });
+.setDepth(402)
+.setInteractive({draggable:true})
+.setVisible(this.open)
 
-this.scene.input.setDraggable(icon);
+this.scene.input.setDraggable(icon)
 
-this.scene.input.on("drag",(pointer,gameObject,dragX,dragY)=>{
+this.scene.input.on("drag",(pointer,obj,x,y)=>{
 
-gameObject.x = dragX;
-gameObject.y = dragY;
+obj.x = x
+obj.y = y
 
-});
+})
 
-this.icons.push(icon);
+this.icons.push(icon)
+
+}
+
+}
 
 }
 
