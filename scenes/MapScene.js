@@ -1,4 +1,4 @@
-class MapScene extends Phaser.Scene{
+class MapScene extends Phaser.Scene {
 
 constructor(){
 super("MapScene");
@@ -16,7 +16,18 @@ this.load.image("libro","assets/libro.png");
 create(){
 
 // MAPA
-this.add.image(600,350,"mapa");
+this.mapa = this.add.image(600,350,"mapa").setDepth(0);
+
+// CAPA DEL ESCRITORIO (parte frontal)
+this.escritorioFront = this.add.rectangle(
+600,
+450,
+400,
+120,
+0x000000,
+0
+).setDepth(5);
+
 
 // INVENTARIO
 this.inventory = new Inventory(this);
@@ -28,28 +39,31 @@ this.avatar.setScale(0.6);
 // CONTROLES
 this.cursors = this.input.keyboard.createCursorKeys();
 
-// MOVIMIENTO CON CLIC
+// VARIABLES MOVIMIENTO
 this.targetX = null;
 this.targetY = null;
+this.targetObject = null;
 
 this.input.on("pointerdown",(pointer)=>{
 
 this.targetX = pointer.x;
 this.targetY = pointer.y;
+this.targetObject = null;
 
 });
 
-// LIMITES PISO
+// LIMITES
 this.floorMinX = 50;
 this.floorMaxX = 1150;
 this.floorMinY = 420;
-this.floorMaxY = 680;
+this.floorMaxY = 690;
 
 
-// FLECHA PUERTA IZQUIERDA
-
-this.flecha = this.add.image(200,450,"flecha")
-.setScale(0.2)
+// FLECHA
+this.flecha = this.add.image(420,450,"flecha")
+.setScale(0.15)
+.setAngle(-90)
+.setDepth(3)
 .setInteractive();
 
 this.flecha.on("pointerdown",()=>{
@@ -59,17 +73,17 @@ this.scene.start("DomiciliosScene");
 });
 
 
-// LIBRO EN ESTANTERIA
-
-this.libro = this.add.image(1050,450,"libro")
-.setScale(0.2)
+// LIBRO
+this.libro = this.add.image(1000,520,"libro")
+.setScale(0.08)
+.setDepth(1)
 .setInteractive();
 
 this.libro.on("pointerdown",()=>{
 
-this.inventory.addItem("Libro biblioteca");
-
-this.libro.destroy();
+this.targetX = this.libro.x;
+this.targetY = this.libro.y;
+this.targetObject = this.libro;
 
 });
 
@@ -80,30 +94,38 @@ update(){
 let speed = 2.5;
 
 
-// TECLADO
+// MOVIMIENTO TECLADO
 
 if(this.cursors.left.isDown){
+
 this.avatar.x -= speed;
 this.targetX = null;
+
 }
 
 else if(this.cursors.right.isDown){
+
 this.avatar.x += speed;
 this.targetX = null;
+
 }
 
 if(this.cursors.up.isDown){
+
 this.avatar.y -= speed;
 this.targetX = null;
+
 }
 
 else if(this.cursors.down.isDown){
+
 this.avatar.y += speed;
 this.targetX = null;
+
 }
 
 
-// CLIC
+// MOVIMIENTO CLIC
 
 if(this.targetX !== null){
 
@@ -112,12 +134,21 @@ let dy = this.targetY - this.avatar.y;
 
 let distance = Math.sqrt(dx*dx + dy*dy);
 
-if(distance > 5){
+if(distance > 10){
 
-this.avatar.x += dx*0.02;
-this.avatar.y += dy*0.02;
+this.avatar.x += dx * 0.02;
+this.avatar.y += dy * 0.02;
 
 }else{
+
+if(this.targetObject){
+
+this.inventory.addItem("libro");
+
+this.targetObject.destroy();
+this.targetObject = null;
+
+}
 
 this.targetX = null;
 this.targetY = null;
@@ -132,6 +163,9 @@ this.targetY = null;
 this.avatar.x = Phaser.Math.Clamp(this.avatar.x,this.floorMinX,this.floorMaxX);
 this.avatar.y = Phaser.Math.Clamp(this.avatar.y,this.floorMinY,this.floorMaxY);
 
-}
+
+// PROFUNDIDAD AUTOMÁTICA (clave del efecto RPG)
+
+this.avatar.setDepth(this.avatar.y);
 
 }
