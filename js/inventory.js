@@ -38,7 +38,6 @@ this.slots.push(slot);
 
 }
 
-// añadir item
 addItem(texture){
 
 let index = this.items.length;
