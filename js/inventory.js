@@ -15,9 +15,7 @@ this.button = scene.add.image(1150,60,"libro")
 .setInteractive()
 
 this.button.on("pointerdown",()=>{
-
 this.toggle()
-
 })
 
 // PANEL INVENTARIO
@@ -46,9 +44,7 @@ fill:"#ffffff"
 .setVisible(false)
 
 this.closeButton.on("pointerdown",()=>{
-
 this.toggle()
-
 })
 
 // SLOTS
@@ -56,7 +52,6 @@ this.slots = []
 
 let startX = 450
 let startY = 260
-let index = 0
 
 for(let row=0;row<2;row++){
 
@@ -76,8 +71,6 @@ startY + row*80,
 
 this.slots.push(slot)
 
-index++
-
 }
 
 }
@@ -92,19 +85,18 @@ this.panel.setVisible(this.open)
 this.closeButton.setVisible(this.open)
 
 this.slots.forEach(s=>s.setVisible(this.open))
-
 this.icons.forEach(i=>i.setVisible(this.open))
 
 }
 
 addItem(texture){
 
+// evita duplicados
 if(this.items.includes(texture)) return
 
 this.items.push(texture)
 
-let index = this.items.length-1
-
+let index = this.items.length - 1
 let slot = this.slots[index]
 
 let icon = this.scene.add.image(
@@ -127,10 +119,6 @@ obj.y = y
 })
 
 this.icons.push(icon)
-
-}
-
-}
 
 }
 
