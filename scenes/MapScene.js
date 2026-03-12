@@ -18,7 +18,7 @@ create(){
 // MAPA
 this.mapa = this.add.image(600,350,"mapa").setDepth(0);
 
-// CAPA DEL ESCRITORIO (parte frontal)
+// ESCRITORIO (capa frontal)
 this.escritorioFront = this.add.rectangle(
 600,
 450,
@@ -38,19 +38,7 @@ this.avatar.setScale(0.6);
 
 // CONTROLES
 this.cursors = this.input.keyboard.createCursorKeys();
-
-// VARIABLES MOVIMIENTO
-this.targetX = null;
-this.targetY = null;
-this.targetObject = null;
-
-this.input.on("pointerdown",(pointer)=>{
-
-this.targetX = pointer.x;
-this.targetY = pointer.y;
-this.targetObject = null;
-
-});
+this.keyE = this.input.keyboard.addKey("E");
 
 // LIMITES
 this.floorMinX = 50;
@@ -59,33 +47,34 @@ this.floorMinY = 420;
 this.floorMaxY = 690;
 
 
-// FLECHA
+// MENSAJE INTERACCION
+this.interactText = this.add.text(
+520,
+620,
+"",
+{
+font:"22px Arial",
+fill:"#ffffff",
+backgroundColor:"#000000"
+}
+).setDepth(300);
+
+
+// FLECHA PUERTA
 this.flecha = this.add.image(420,450,"flecha")
 .setScale(0.15)
 .setAngle(-90)
-.setDepth(3)
-.setInteractive();
-
-this.flecha.on("pointerdown",()=>{
-
-this.scene.start("DomiciliosScene");
-
-});
+.setDepth(3);
 
 
 // LIBRO
 this.libro = this.add.image(1000,520,"libro")
 .setScale(0.08)
-.setDepth(1)
-.setInteractive();
+.setDepth(1);
 
-this.libro.on("pointerdown",()=>{
 
-this.targetX = this.libro.x;
-this.targetY = this.libro.y;
-this.targetObject = this.libro;
-
-});
+// OBJETO ACTUAL
+this.currentInteractable = null;
 
 }
 
@@ -94,67 +83,22 @@ update(){
 let speed = 2.5;
 
 
-// MOVIMIENTO TECLADO
+// MOVIMIENTO
 
 if(this.cursors.left.isDown){
-
 this.avatar.x -= speed;
-this.targetX = null;
-
 }
 
 else if(this.cursors.right.isDown){
-
 this.avatar.x += speed;
-this.targetX = null;
-
 }
 
 if(this.cursors.up.isDown){
-
 this.avatar.y -= speed;
-this.targetX = null;
-
 }
 
 else if(this.cursors.down.isDown){
-
 this.avatar.y += speed;
-this.targetX = null;
-
-}
-
-
-// MOVIMIENTO CLIC
-
-if(this.targetX !== null){
-
-let dx = this.targetX - this.avatar.x;
-let dy = this.targetY - this.avatar.y;
-
-let distance = Math.sqrt(dx*dx + dy*dy);
-
-if(distance > 10){
-
-this.avatar.x += dx * 0.02;
-this.avatar.y += dy * 0.02;
-
-}else{
-
-if(this.targetObject){
-
-this.inventory.addItem("libro");
-
-this.targetObject.destroy();
-this.targetObject = null;
-
-}
-
-this.targetX = null;
-this.targetY = null;
-
-}
-
 }
 
 
@@ -164,8 +108,66 @@ this.avatar.x = Phaser.Math.Clamp(this.avatar.x,this.floorMinX,this.floorMaxX);
 this.avatar.y = Phaser.Math.Clamp(this.avatar.y,this.floorMinY,this.floorMaxY);
 
 
-// PROFUNDIDAD AUTOMÁTICA (clave del efecto RPG)
+// PROFUNDIDAD RPG
 
 this.avatar.setDepth(this.avatar.y);
+
+
+// DETECTAR OBJETOS CERCANOS
+
+this.currentInteractable = null;
+this.interactText.setText("");
+
+let distanceLibro = Phaser.Math.Distance.Between(
+this.avatar.x,
+this.avatar.y,
+this.libro.x,
+this.libro.y
+);
+
+if(distanceLibro < 80){
+
+this.currentInteractable = "libro";
+this.interactText.setText("Presiona E para recoger libro");
+
+}
+
+
+let distancePuerta = Phaser.Math.Distance.Between(
+this.avatar.x,
+this.avatar.y,
+this.flecha.x,
+this.flecha.y
+);
+
+if(distancePuerta < 80){
+
+this.currentInteractable = "puerta";
+this.interactText.setText("Presiona E para entrar");
+
+}
+
+
+// PRESIONAR E
+
+if(Phaser.Input.Keyboard.JustDown(this.keyE)){
+
+if(this.currentInteractable === "libro"){
+
+this.inventory.addItem("libro");
+
+this.libro.destroy();
+
+}
+
+if(this.currentInteractable === "puerta"){
+
+this.scene.start("DomiciliosScene");
+
+}
+
+}
+
+}
 
 }
