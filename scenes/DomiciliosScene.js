@@ -32,18 +32,14 @@ this.cursors = this.input.keyboard.createCursorKeys();
 this.volver = this.add.text(
 30,
 650,
-"← Volver",
+"Presiona E para volver",
 {
 font:"24px Arial",
 fill:"#ffffff"
 }
-).setInteractive();
+);
 
-this.volver.on("pointerdown",()=>{
-
-this.scene.start("MapScene");
-
-});
+this.keyE = this.input.keyboard.addKey("E");
 
 }
 
@@ -66,6 +62,11 @@ this.avatar.y -= speed;
 else if(this.cursors.down.isDown){
 this.avatar.y += speed;
 }
+
+
+if(Phaser.Input.Keyboard.JustDown(this.keyE)){
+
+this.scene.start("MapScene");
 
 }
 
