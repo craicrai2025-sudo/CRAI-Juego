@@ -1,172 +1,150 @@
-class MapScene extends Phaser.Scene {
+class MapScene extends Phaser.Scene{
 
 constructor(){
-super("MapScene");
+super("MapScene")
 }
 
 preload(){
 
-this.load.image("mapa","assets/mapa.png");
-this.load.image("avatar","assets/avatar.png");
-this.load.image("flecha","assets/flecha.png");
-this.load.image("libro","assets/libro.png");
+this.load.image("mapa","assets/mapa.png")
+this.load.image("avatar","assets/avatar.png")
+this.load.image("flecha","assets/flecha.png")
+this.load.image("libro","assets/libro.png")
 
 }
 
 create(){
 
 // MAPA
-this.mapa = this.add.image(600,350,"mapa").setDepth(0);
-
-// ESCRITORIO (capa frontal)
-this.escritorioFront = this.add.rectangle(
-600,
-450,
-400,
-120,
-0x000000,
-0
-).setDepth(5);
-
+this.mapa = this.add.image(600,350,"mapa")
 
 // INVENTARIO
-this.inventory = new Inventory(this);
+this.inventory = new Inventory(this)
 
 // AVATAR
-this.avatar = this.physics.add.sprite(600,550,"avatar");
-this.avatar.setScale(0.6);
+this.avatar = this.physics.add.sprite(600,550,"avatar")
+this.avatar.setScale(0.6)
 
 // CONTROLES
-this.cursors = this.input.keyboard.createCursorKeys();
-this.keyE = this.input.keyboard.addKey("E");
+this.cursors = this.input.keyboard.createCursorKeys()
+this.keyE = this.input.keyboard.addKey("E")
 
 // LIMITES
-this.floorMinX = 50;
-this.floorMaxX = 1150;
-this.floorMinY = 420;
-this.floorMaxY = 690;
+this.floorMinX = 50
+this.floorMaxX = 1150
+this.floorMinY = 420
+this.floorMaxY = 690
 
-
-// MENSAJE INTERACCION
-this.interactText = this.add.text(
-520,
-620,
-"",
+// ICONO INTERACCION
+this.interactIcon = this.add.text(
+0,
+0,
+"E",
 {
-font:"22px Arial",
+font:"28px Arial",
 fill:"#ffffff",
 backgroundColor:"#000000"
-}
-).setDepth(300);
+})
+.setPadding(6)
+.setDepth(300)
+.setVisible(false)
 
-
-// FLECHA PUERTA
+// PUERTA
 this.flecha = this.add.image(420,450,"flecha")
 .setScale(0.15)
 .setAngle(-90)
-.setDepth(3);
-
 
 // LIBRO
 this.libro = this.add.image(1000,520,"libro")
 .setScale(0.08)
-.setDepth(1);
+.setInteractive()
 
+this.libroRecogido = false
 
-// OBJETO ACTUAL
-this.currentInteractable = null;
+// CLIC LIBRO
+this.libro.on("pointerdown",()=>{
+
+this.tryCollectBook()
+
+})
+
+// CLIC PUERTA
+this.flecha.setInteractive()
+
+this.flecha.on("pointerdown",()=>{
+
+this.scene.start("DomiciliosScene")
+
+})
 
 }
 
 update(){
 
-let speed = 2.5;
-
+let speed = 2.5
 
 // MOVIMIENTO
 
-if(this.cursors.left.isDown){
-this.avatar.x -= speed;
-}
+if(this.cursors.left.isDown) this.avatar.x -= speed
+else if(this.cursors.right.isDown) this.avatar.x += speed
 
-else if(this.cursors.right.isDown){
-this.avatar.x += speed;
-}
-
-if(this.cursors.up.isDown){
-this.avatar.y -= speed;
-}
-
-else if(this.cursors.down.isDown){
-this.avatar.y += speed;
-}
-
+if(this.cursors.up.isDown) this.avatar.y -= speed
+else if(this.cursors.down.isDown) this.avatar.y += speed
 
 // LIMITES
 
-this.avatar.x = Phaser.Math.Clamp(this.avatar.x,this.floorMinX,this.floorMaxX);
-this.avatar.y = Phaser.Math.Clamp(this.avatar.y,this.floorMinY,this.floorMaxY);
-
+this.avatar.x = Phaser.Math.Clamp(this.avatar.x,this.floorMinX,this.floorMaxX)
+this.avatar.y = Phaser.Math.Clamp(this.avatar.y,this.floorMinY,this.floorMaxY)
 
 // PROFUNDIDAD RPG
 
-this.avatar.setDepth(this.avatar.y);
+this.avatar.setDepth(this.avatar.y)
 
+// DISTANCIA LIBRO
 
-// DETECTAR OBJETOS CERCANOS
+if(!this.libroRecogido){
 
-this.currentInteractable = null;
-this.interactText.setText("");
-
-let distanceLibro = Phaser.Math.Distance.Between(
+let dist = Phaser.Math.Distance.Between(
 this.avatar.x,
 this.avatar.y,
 this.libro.x,
 this.libro.y
-);
+)
 
-if(distanceLibro < 80){
+if(dist < 80){
 
-this.currentInteractable = "libro";
-this.interactText.setText("Presiona E para recoger libro");
-
-}
-
-
-let distancePuerta = Phaser.Math.Distance.Between(
-this.avatar.x,
-this.avatar.y,
-this.flecha.x,
-this.flecha.y
-);
-
-if(distancePuerta < 80){
-
-this.currentInteractable = "puerta";
-this.interactText.setText("Presiona E para entrar");
-
-}
-
-
-// PRESIONAR E
+this.interactIcon.setPosition(this.libro.x,this.libro.y-40)
+this.interactIcon.setVisible(true)
 
 if(Phaser.Input.Keyboard.JustDown(this.keyE)){
 
-if(this.currentInteractable === "libro"){
-
-this.inventory.addItem("libro");
-
-this.libro.destroy();
+this.tryCollectBook()
 
 }
 
-if(this.currentInteractable === "puerta"){
+}else{
 
-this.scene.start("DomiciliosScene");
+this.interactIcon.setVisible(false)
 
 }
 
 }
+
+}
+
+// RECOGER LIBRO
+
+tryCollectBook(){
+
+if(this.libroRecogido) return
+
+this.inventory.addItem("libro")
+
+this.libro.destroy()
+
+this.libroRecogido = true
+
+this.interactIcon.setVisible(false)
 
 }
 
