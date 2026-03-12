@@ -1,8 +1,8 @@
 const config = {
 
 type: Phaser.AUTO,
-width: 1200,
-height: 700,
+width:1200,
+height:700,
 
 physics:{
 default:"arcade"
@@ -13,6 +13,6 @@ MapScene,
 DomiciliosScene
 ]
 
-};
+}
 
-const game = new Phaser.Game(config);
+const game = new Phaser.Game(config)
