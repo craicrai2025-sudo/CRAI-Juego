@@ -8,10 +8,7 @@ this.icons = []
 
 this.open = false
 
-// 🔥 CONTENEDOR GLOBAL
-this.container = scene.add.container(0,0).setDepth(400)
-
-// BOTON INVENTARIO
+// BOTÓN INVENTARIO
 this.button = scene.add.image(1150,60,"libro")
 .setScale(0.07)
 .setDepth(500)
@@ -23,6 +20,7 @@ this.toggle()
 
 // PANEL
 this.panel = scene.add.rectangle(600,350,500,350,0x000000,0.85)
+.setDepth(400)
 .setVisible(false)
 
 // TOOLTIP
@@ -32,7 +30,21 @@ fill:"#ffffff",
 backgroundColor:"#000000"
 })
 .setPadding(5)
+.setDepth(500)
 .setVisible(false)
+
+// BOTÓN CERRAR
+this.closeButton = scene.add.text(820,200,"X",{
+font:"28px Arial",
+fill:"#ffffff"
+})
+.setDepth(401)
+.setInteractive()
+.setVisible(false)
+
+this.closeButton.on("pointerdown",()=>{
+this.toggle()
+})
 
 // SLOTS
 this.slots = []
@@ -52,6 +64,7 @@ startY + row*80,
 0.15
 )
 .setStrokeStyle(2,0xffffff)
+.setDepth(401)
 .setVisible(false)
 
 this.slots.push(slot)
@@ -59,19 +72,7 @@ this.slots.push(slot)
 }
 }
 
-// CERRAR
-this.closeButton = scene.add.text(820,200,"X",{
-font:"28px Arial",
-fill:"#ffffff"
-})
-.setInteractive()
-.setVisible(false)
-
-this.closeButton.on("pointerdown",()=>{
-this.toggle()
-})
-
-// DRAG GLOBAL
+// DRAG GLOBAL (solo una vez)
 scene.input.on("drag",(pointer,obj,x,y)=>{
 obj.x = x
 obj.y = y
@@ -83,10 +84,8 @@ scene.input.on("dragend",(pointer,obj)=>{
 let closest = this.getClosestSlot(obj.x,obj.y)
 
 if(closest){
-
 obj.x = closest.x
 obj.y = closest.y
-
 }
 
 })
@@ -107,6 +106,7 @@ this.icons.forEach(i=>i.setVisible(this.open))
 
 addItem(texture){
 
+// evitar duplicados
 if(this.items.includes(texture)) return
 
 this.items.push(texture)
@@ -114,12 +114,14 @@ this.items.push(texture)
 let index = this.items.length - 1
 let slot = this.slots[index]
 
+// crear icono
 let icon = this.scene.add.image(slot.x,slot.y,texture)
 .setScale(0.08)
+.setDepth(402)
 .setInteractive({draggable:true})
 .setVisible(this.open)
 
-// 🔥 HOVER
+// HOVER
 icon.on("pointerover",()=>{
 
 icon.setScale(0.1)
@@ -158,10 +160,6 @@ closest = slot
 })
 
 return closest
-
-}
-
-}
 
 }
 
