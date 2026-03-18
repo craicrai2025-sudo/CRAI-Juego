@@ -10,7 +10,8 @@ default:"arcade"
 
 scene:[
 MapScene,
-DomiciliosScene
+DomiciliosScene,
+UIScene
 ]
 
 }
@@ -19,3 +20,10 @@ const game = new Phaser.Game(config)
 
 // 🔥 INVENTARIO GLOBAL
 game.globalInventory = null
+
+//Inventario
+callbacks: {
+postBoot: function (game) {
+game.scene.start("UIScene")
+}
+}
