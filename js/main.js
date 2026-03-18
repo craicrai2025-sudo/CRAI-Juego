@@ -16,3 +16,6 @@ DomiciliosScene
 }
 
 const game = new Phaser.Game(config)
+
+// 🔥 INVENTARIO GLOBAL
+game.globalInventory = null
