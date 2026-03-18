@@ -4,12 +4,15 @@ constructor(){
 super("UIScene")
 }
 
+preload(){
+this.load.image("maleta","assets/maleta.png")
+}
+
 create(){
 
-// INVENTARIO GLOBAL (UNA SOLA VEZ)
 this.inventory = new Inventory(this)
 
-// 🔥 HACERLO GLOBAL
+// GLOBAL
 this.game.inventory = this.inventory
 
 }
