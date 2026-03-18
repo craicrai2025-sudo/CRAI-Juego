@@ -6,36 +6,43 @@ super("DomiciliosScene")
 
 preload(){
 
+this.load.image("domicilios","assets/centro_domicilios.png")
 this.load.image("avatar","assets/avatar.png")
+this.load.image("libro","assets/libro.png")
 
 }
 
 create(){
 
-this.add.rectangle(600,350,1200,700,0x333333)
+// FONDO
+this.add.image(600,350,"domicilios")
 
-this.add.text(
-420,
-100,
-"Centro de domicilios",
-{
-font:"40px Arial",
-fill:"#ffffff"
-})
+// AVATAR
+this.player = this.physics.add.sprite(600,550,"avatar")
+.setScale(0.6)
 
-this.avatar = this.physics.add.sprite(600,550,"avatar")
-this.avatar.setScale(0.6)
-
+// CONTROLES
 this.cursors = this.input.keyboard.createCursorKeys()
 
+// LIBRO
+this.libro = this.add.image(900,520,"libro")
+.setScale(0.08)
+.setInteractive()
+
+this.libro.on("pointerdown",()=>{
+
+this.player.x = this.libro.x - 50
+this.player.y = this.libro.y
+
+this.libro.destroy()
+
+})
+
+// TEXTO
 this.keyE = this.input.keyboard.addKey("E")
 
-this.add.text(
-30,
-650,
-"Presiona E para volver",
-{
-font:"24px Arial",
+this.add.text(30,650,"Presiona E para volver",{
+font:"20px Arial",
 fill:"#ffffff"
 })
 
@@ -45,16 +52,13 @@ update(){
 
 let speed = 2.5
 
-if(this.cursors.left.isDown) this.avatar.x -= speed
-else if(this.cursors.right.isDown) this.avatar.x += speed
-
-if(this.cursors.up.isDown) this.avatar.y -= speed
-else if(this.cursors.down.isDown) this.avatar.y += speed
+if(this.cursors.left.isDown) this.player.x -= speed
+if(this.cursors.right.isDown) this.player.x += speed
+if(this.cursors.up.isDown) this.player.y -= speed
+if(this.cursors.down.isDown) this.player.y += speed
 
 if(Phaser.Input.Keyboard.JustDown(this.keyE)){
-
 this.scene.start("MapScene")
-
 }
 
 }
