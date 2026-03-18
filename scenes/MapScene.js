@@ -30,7 +30,8 @@ this.inventory.scene = this
 // AVATAR
 this.avatar = this.physics.add.sprite(600,550,"avatar")
 .setScale(0.6)
-
+.setDepth(10)
+  
 // CONTROLES
 this.cursors = this.input.keyboard.createCursorKeys()
 this.keyE = this.input.keyboard.addKey("E")
