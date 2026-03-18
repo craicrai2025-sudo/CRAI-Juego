@@ -5,7 +5,8 @@ super("MapScene")
 }
 
 preload(){
-
+  
+this.load.image("domicilios","assets/centro_domicilios.png")
 this.load.image("mapa","assets/mapa.png")
 this.load.image("avatar","assets/avatar.png")
 this.load.image("flecha","assets/flecha.png")
@@ -14,6 +15,10 @@ this.load.image("libro","assets/libro.png")
 }
 
 create(){
+
+
+//Centro de domicilios
+this.add.image(600,350,"domicilios")
 
 // MAPA
 this.mapa = this.add.image(600,350,"mapa")
