@@ -8,97 +8,49 @@ preload(){
 
 this.load.image("mapa","assets/mapa.png")
 this.load.image("avatar","assets/avatar.png")
-this.load.image("flecha","assets/flecha.png")
 this.load.image("libro","assets/libro.png")
 
 }
 
 create(){
 
-// FONDO
-this.add.image(600,350,"mapa")
-
-// 🔥 INVENTARIO GLOBAL
-if(!this.game.globalInventory){
-this.game.globalInventory = new Inventory(this)
-this.inventory = this.game.globalInventory
-}else{
-this.inventory = this.game.globalInventory
-this.inventory.scene = this
-}
+this.add.image(600,350,"mapa").setDisplaySize(1200,700)
 
 // AVATAR
-this.avatar = this.physics.add.sprite(600,550,"avatar")
-.setScale(0.6)
-.setDepth(10)
-  
-// CONTROLES
-this.cursors = this.input.keyboard.createCursorKeys()
-this.keyE = this.input.keyboard.addKey("E")
-
-// LIMITES
-this.minX = 50
-this.maxX = 1150
-this.minY = 420
-this.maxY = 690
+this.avatar = this.physics.add.image(200,300,"avatar").setScale(0.2)
 
 // LIBRO
-this.libro = this.add.image(1000,520,"libro")
-.setScale(0.08)
-.setInteractive()
+this.libro = this.physics.add.image(500,300,"libro").setScale(0.08)
 
-this.libroRecogido = this.game.globalState.mapa.libroRecogido
-
-if(this.libroRecogido){
+// ESTADO
+if(this.game.globalState.mapa.libroRecogido){
 this.libro.destroy()
 }
 
-// FLECHA (PUERTA)
-this.flecha = this.add.image(420,450,"flecha")
-.setScale(0.15)
-.setAngle(-90)
-.setInteractive()
+// TECLAS
+this.cursors = this.input.keyboard.createCursorKeys()
+this.keyE = this.input.keyboard.addKey("E")
 
-// ICONO E (MINIMALISTA)
+// ICONO E
 this.iconE = this.add.text(0,0,"E",{
-font:"22px Arial",
-fill:"#ffffff"
+font:"20px Arial",
+fill:"#fff",
+backgroundColor:"#000"
 })
-.setBackgroundColor("#000000")
-.setPadding(5)
+.setPadding(4)
 .setVisible(false)
-
-// CLICK LIBRO
-this.libro.on("pointerdown",()=>{
-this.recogerLibro()
-})
-
-// CLICK PUERTA
-this.flecha.on("pointerdown",()=>{
-this.scene.start("DomiciliosScene")
-})
 
 }
 
 update(){
 
-let speed = 2.5
-
 // MOVIMIENTO
-if(this.cursors.left.isDown) this.avatar.x -= speed
-if(this.cursors.right.isDown) this.avatar.x += speed
-if(this.cursors.up.isDown) this.avatar.y -= speed
-if(this.cursors.down.isDown) this.avatar.y += speed
+if(this.cursors.left.isDown) this.avatar.x -= 3
+if(this.cursors.right.isDown) this.avatar.x += 3
+if(this.cursors.up.isDown) this.avatar.y -= 3
+if(this.cursors.down.isDown) this.avatar.y += 3
 
-// LIMITES
-this.avatar.x = Phaser.Math.Clamp(this.avatar.x,this.minX,this.maxX)
-this.avatar.y = Phaser.Math.Clamp(this.avatar.y,this.minY,this.maxY)
-
-// PROFUNDIDAD
-this.avatar.setDepth(10)
-
-// INTERACCION LIBRO
-if(!this.libroRecogido){
+if(!this.libro) return
 
 let dist = Phaser.Math.Distance.Between(
 this.avatar.x,
@@ -107,33 +59,21 @@ this.libro.x,
 this.libro.y
 )
 
-if(dist < 80){
+// POSICION E
+this.iconE.setPosition(this.avatar.x-10,this.avatar.y-60)
 
-this.iconE.setPosition(this.libro.x,this.libro.y - 40)
-this.iconE.setVisible(true)
+// MOSTRAR
+this.iconE.setVisible(dist < 80)
 
-if(Phaser.Input.Keyboard.JustDown(this.keyE)){
-this.recogerLibro()
-}
+// RECOGER
+if(dist < 80 && Phaser.Input.Keyboard.JustDown(this.keyE)){
 
-}else{
-this.iconE.setVisible(false)
-}
-
-}
-
-}
-
-recogerLibro(){
-
-if(this.libroRecogido) return
-
-this.inventory.addItem("libro")
+this.game.inventory.addItem("libro")
 
 this.libro.destroy()
-this.libroRecogido = true
+this.game.globalState.mapa.libroRecogido = true
 
-this.iconE.setVisible(false)
+}
 
 }
 
