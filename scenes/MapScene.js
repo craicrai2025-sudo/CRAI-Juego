@@ -91,7 +91,7 @@ this.avatar.x = Phaser.Math.Clamp(this.avatar.x,this.minX,this.maxX)
 this.avatar.y = Phaser.Math.Clamp(this.avatar.y,this.minY,this.maxY)
 
 // PROFUNDIDAD
-this.avatar.setDepth(this.avatar.y)
+this.avatar.setDepth(10)
 
 // INTERACCION LIBRO
 if(!this.libroRecogido){
