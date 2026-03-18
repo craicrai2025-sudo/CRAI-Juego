@@ -1,39 +1,17 @@
 const config = {
-
 type: Phaser.AUTO,
 width: 1200,
 height: 700,
-
-physics:{
-default:"arcade"
-},
-
-scene:[
-MapScene,
-DomiciliosScene,
-UIScene
-]
-
+scene: [MapScene, DomiciliosScene, UIScene]
 }
 
 const game = new Phaser.Game(config)
 
-//guardar inventario
+// 🔥 ESTADO GLOBAL
 game.globalState = {
-mapa: {
-libroRecogido: false
-},
-domicilios: {
-libroRecogido: false
-}
+mapa: { libroRecogido: false },
+domicilios: { libroRecogido: false }
 }
 
-// 🔥 INVENTARIO GLOBAL
-game.globalInventory = null
-
-//Inventario
-callbacks: {
-postBoot: function (game) {
+// 🔥 INICIAR UI
 game.scene.start("UIScene")
-}
-}
