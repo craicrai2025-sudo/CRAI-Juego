@@ -47,7 +47,11 @@ this.libro = this.add.image(1000,520,"libro")
 .setScale(0.08)
 .setInteractive()
 
-this.libroRecogido = false
+this.libroRecogido = this.game.globalState.mapa.libroRecogido
+
+if(this.libroRecogido){
+this.libro.destroy()
+}
 
 // FLECHA (PUERTA)
 this.flecha = this.add.image(420,450,"flecha")
