@@ -54,7 +54,6 @@ let startX = 450
 let startY = 260
 
 for(let row=0;row<2;row++){
-
 for(let col=0;col<5;col++){
 
 let slot = scene.add.rectangle(
@@ -72,8 +71,13 @@ startY + row*80,
 this.slots.push(slot)
 
 }
-
 }
+
+// ✅ DRAG SOLO UNA VEZ
+this.scene.input.on("drag",(pointer,obj,x,y)=>{
+obj.x = x
+obj.y = y
+})
 
 }
 
@@ -108,15 +112,6 @@ texture
 .setDepth(402)
 .setInteractive({draggable:true})
 .setVisible(this.open)
-
-this.scene.input.setDraggable(icon)
-
-this.scene.input.on("drag",(pointer,obj,x,y)=>{
-
-obj.x = x
-obj.y = y
-
-})
 
 this.icons.push(icon)
 
