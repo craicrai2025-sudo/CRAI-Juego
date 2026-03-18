@@ -18,6 +18,16 @@ UIScene
 
 const game = new Phaser.Game(config)
 
+//guardar inventario
+game.globalState = {
+mapa: {
+libroRecogido: false
+},
+domicilios: {
+libroRecogido: false
+}
+}
+
 // 🔥 INVENTARIO GLOBAL
 game.globalInventory = null
 
