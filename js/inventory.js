@@ -4,11 +4,14 @@ constructor(scene){
 
 this.scene = scene
 this.items = []
-
-this.open = false
 this.icons = []
 
-// BOTON LIBRO
+this.open = false
+
+// 🔥 CONTENEDOR GLOBAL
+this.container = scene.add.container(0,0).setDepth(400)
+
+// BOTON INVENTARIO
 this.button = scene.add.image(1150,60,"libro")
 .setScale(0.07)
 .setDepth(500)
@@ -18,34 +21,18 @@ this.button.on("pointerdown",()=>{
 this.toggle()
 })
 
-// PANEL INVENTARIO
-this.panel = scene.add.rectangle(
-600,
-350,
-500,
-350,
-0x000000,
-0.8
-)
-.setDepth(400)
+// PANEL
+this.panel = scene.add.rectangle(600,350,500,350,0x000000,0.85)
 .setVisible(false)
 
-// BOTON CERRAR
-this.closeButton = scene.add.text(
-820,
-200,
-"X",
-{
-font:"28px Arial",
-fill:"#ffffff"
+// TOOLTIP
+this.tooltip = scene.add.text(0,0,"",{
+font:"18px Arial",
+fill:"#ffffff",
+backgroundColor:"#000000"
 })
-.setDepth(401)
-.setInteractive()
+.setPadding(5)
 .setVisible(false)
-
-this.closeButton.on("pointerdown",()=>{
-this.toggle()
-})
 
 // SLOTS
 this.slots = []
@@ -65,7 +52,6 @@ startY + row*80,
 0.15
 )
 .setStrokeStyle(2,0xffffff)
-.setDepth(401)
 .setVisible(false)
 
 this.slots.push(slot)
@@ -73,10 +59,36 @@ this.slots.push(slot)
 }
 }
 
-// ✅ DRAG SOLO UNA VEZ
-this.scene.input.on("drag",(pointer,obj,x,y)=>{
+// CERRAR
+this.closeButton = scene.add.text(820,200,"X",{
+font:"28px Arial",
+fill:"#ffffff"
+})
+.setInteractive()
+.setVisible(false)
+
+this.closeButton.on("pointerdown",()=>{
+this.toggle()
+})
+
+// DRAG GLOBAL
+scene.input.on("drag",(pointer,obj,x,y)=>{
 obj.x = x
 obj.y = y
+})
+
+// SNAP AL SOLTAR
+scene.input.on("dragend",(pointer,obj)=>{
+
+let closest = this.getClosestSlot(obj.x,obj.y)
+
+if(closest){
+
+obj.x = closest.x
+obj.y = closest.y
+
+}
+
 })
 
 }
@@ -95,7 +107,6 @@ this.icons.forEach(i=>i.setVisible(this.open))
 
 addItem(texture){
 
-// evita duplicados
 if(this.items.includes(texture)) return
 
 this.items.push(texture)
@@ -103,17 +114,54 @@ this.items.push(texture)
 let index = this.items.length - 1
 let slot = this.slots[index]
 
-let icon = this.scene.add.image(
-slot.x,
-slot.y,
-texture
-)
+let icon = this.scene.add.image(slot.x,slot.y,texture)
 .setScale(0.08)
-.setDepth(402)
 .setInteractive({draggable:true})
 .setVisible(this.open)
 
+// 🔥 HOVER
+icon.on("pointerover",()=>{
+
+icon.setScale(0.1)
+
+this.tooltip.setText(texture)
+this.tooltip.setPosition(icon.x,icon.y - 40)
+this.tooltip.setVisible(true)
+
+})
+
+icon.on("pointerout",()=>{
+
+icon.setScale(0.08)
+this.tooltip.setVisible(false)
+
+})
+
 this.icons.push(icon)
+
+}
+
+getClosestSlot(x,y){
+
+let minDist = 9999
+let closest = null
+
+this.slots.forEach(slot=>{
+
+let dist = Phaser.Math.Distance.Between(x,y,slot.x,slot.y)
+
+if(dist < minDist){
+minDist = dist
+closest = slot
+}
+
+})
+
+return closest
+
+}
+
+}
 
 }
 
