@@ -133,7 +133,3 @@ this.iconE.setVisible(false)
 }
 
 }
-this.libro.destroy()
-this.libroRecogido = true
-
-}
