@@ -16,6 +16,7 @@ create(){
 
 // FONDO
 this.add.image(600,350,"domicilios")
+.setDisplaySize(1200,700)
 
 // 🔥 INVENTARIO GLOBAL
 if(!this.game.globalInventory){
