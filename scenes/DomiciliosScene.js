@@ -6,7 +6,7 @@ super("DomiciliosScene")
 
 preload(){
 
-this.load.image("domicilios","assets/centro_domicilios.png")
+this.load.image("domicilios","assets/domicilios.png")
 this.load.image("avatar","assets/avatar.png")
 this.load.image("libro","assets/libro.png")
 
@@ -14,108 +14,66 @@ this.load.image("libro","assets/libro.png")
 
 create(){
 
-// FONDO
-this.add.image(600,350,"domicilios")
-.setDisplaySize(1200,700)
-
-// 🔥 INVENTARIO GLOBAL
-if(!this.game.globalInventory){
-this.game.globalInventory = new Inventory(this)
-this.inventory = this.game.globalInventory
-}else{
-this.inventory = this.game.globalInventory
-this.inventory.scene = this
-}
+this.add.image(600,350,"domicilios").setDisplaySize(1200,700)
 
 // AVATAR
-this.player = this.physics.add.sprite(600,550,"avatar")
-.setScale(0.6)
+this.avatar = this.physics.add.image(200,300,"avatar").setScale(0.2)
 
-// CONTROLES
+// LIBRO
+this.libro = this.physics.add.image(800,500,"libro").setScale(0.08)
+
+// ESTADO
+if(this.game.globalState.domicilios.libroRecogido){
+this.libro.destroy()
+}
+
+// INPUT
 this.cursors = this.input.keyboard.createCursorKeys()
 this.keyE = this.input.keyboard.addKey("E")
 
-// LIBRO EN EL SUELO
-this.libro = this.add.image(900,520,"libro")
-.setScale(0.08)
-.setInteractive()
-
-this.libroRecogido = false
-
 // ICONO E
 this.iconE = this.add.text(0,0,"E",{
-font:"22px Arial",
-fill:"#ffffff"
-})
-.setBackgroundColor("#000000")
-.setPadding(5)
-.setVisible(false)
-
-// CLICK LIBRO
-this.libro.on("pointerdown",()=>{
-this.recogerLibro()
-})
-
-// TEXTO VOLVER
-this.add.text(30,650,"Presiona E para volver",{
 font:"20px Arial",
-fill:"#ffffff"
+fill:"#fff",
+backgroundColor:"#000"
 })
+.setPadding(4)
+.setVisible(false)
 
 }
 
 update(){
 
-let speed = 2.5
-
 // MOVIMIENTO
-if(this.cursors.left.isDown) this.player.x -= speed
-if(this.cursors.right.isDown) this.player.x += speed
-if(this.cursors.up.isDown) this.player.y -= speed
-if(this.cursors.down.isDown) this.player.y += speed
+if(this.cursors.left.isDown) this.avatar.x -= 3
+if(this.cursors.right.isDown) this.avatar.x += 3
+if(this.cursors.up.isDown) this.avatar.y -= 3
+if(this.cursors.down.isDown) this.avatar.y += 3
 
-// INTERACCION LIBRO
-if(!this.libroRecogido){
+if(!this.libro) return
 
 let dist = Phaser.Math.Distance.Between(
-this.player.x,
-this.player.y,
+this.avatar.x,
+this.avatar.y,
 this.libro.x,
 this.libro.y
 )
 
-if(dist < 80){
+// POSICION E
+this.iconE.setPosition(this.avatar.x-10,this.avatar.y-60)
 
-this.iconE.setPosition(this.libro.x,this.libro.y - 40)
-this.iconE.setVisible(true)
+// MOSTRAR
+this.iconE.setVisible(dist < 80)
 
-if(Phaser.Input.Keyboard.JustDown(this.keyE)){
-this.recogerLibro()
-}
+// RECOGER
+if(dist < 80 && Phaser.Input.Keyboard.JustDown(this.keyE)){
 
-}else{
-this.iconE.setVisible(false)
-}
-
-}
-
-// VOLVER AL MAPA
-if(Phaser.Input.Keyboard.JustDown(this.keyE)){
-this.scene.start("MapScene")
-}
-
-}
-
-recogerLibro(){
-
-if(this.libroRecogido) return
-
-this.inventory.addItem("libro")
+this.game.inventory.addItem("libro")
 
 this.libro.destroy()
-this.libroRecogido = true
+this.game.globalState.domicilios.libroRecogido = true
 
-this.iconE.setVisible(false)
+}
 
 }
 
