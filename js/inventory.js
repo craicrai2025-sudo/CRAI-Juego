@@ -9,7 +9,7 @@ this.icons = []
 this.open = false
 
 // BOTÓN INVENTARIO
-this.button = scene.add.image(1150,60,"libro")
+this.button = scene.add.image(1150,60,"maleta")
 .setScale(0.07)
 .setDepth(500)
 .setInteractive()
