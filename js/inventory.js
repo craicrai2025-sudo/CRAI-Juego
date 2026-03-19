@@ -8,26 +8,28 @@ this.icons = []
 this.open = false
 
 // BOTON MALETA
-this.button = scene.add.image(1150,60,"maleta")
-.setScale(0.08)
+this.button = scene.add.image(1100,80,"maleta")
+.setScale(0.25)
 .setDepth(1000)
 .setScrollFactor(0)
 .setInteractive()
 
+// CLICK
 this.button.on("pointerdown",()=>{
 this.toggle()
+})
 
- this.button.setAlpha(0.9)
-
+// HOVER (FUERA DEL CLICK)
 this.button.on("pointerover",()=>{
-this.button.setScale(0.27)
+this.button.setScale(0.28)
+this.button.setAlpha(1)
 })
 
 this.button.on("pointerout",()=>{
 this.button.setScale(0.25)
-}) 
+this.button.setAlpha(0.9)
 })
-
+ 
 // PANEL
 this.panel = scene.add.rectangle(600,350,500,350,0x000000,0.7)
 .setDepth(999)
