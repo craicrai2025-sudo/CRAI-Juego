@@ -16,6 +16,16 @@ this.button = scene.add.image(1150,60,"maleta")
 
 this.button.on("pointerdown",()=>{
 this.toggle()
+
+ this.button.setAlpha(0.9)
+
+this.button.on("pointerover",()=>{
+this.button.setScale(0.27)
+})
+
+this.button.on("pointerout",()=>{
+this.button.setScale(0.25)
+}) 
 })
 
 // PANEL
