@@ -8,19 +8,15 @@ create(){
 
 this.add.rectangle(600,350,1200,700,0x000000)
 
-this.add.text(600,200,"Juego CRAI",{
+this.add.text(500,200,"Juego CRAI",{
 font:"48px Arial",
-fill:"#fff"
-}).setOrigin(0.5)
-
-let start = this.add.text(600,350,"Iniciar Juego",{
-font:"32px Arial",
-backgroundColor:"#fff",
-color:"#000",
-padding:10
+fill:"#ffffff"
 })
-.setOrigin(0.5)
-.setInteractive()
+
+let start = this.add.text(520,350,"Iniciar Juego",{
+font:"32px Arial",
+fill:"#00ffcc"
+}).setInteractive()
 
 start.on("pointerdown",()=>{
 this.scene.start("MapScene")
