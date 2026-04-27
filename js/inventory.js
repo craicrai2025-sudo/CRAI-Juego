@@ -7,39 +7,19 @@ this.items = []
 this.icons = []
 this.open = false
 
-// BOTON
 this.button = scene.add.image(1100,80,"maleta")
 .setScale(0.25)
 .setDepth(1000)
 .setScrollFactor(0)
 .setInteractive()
 
-this.button.on("pointerdown",()=>this.toggle())
+this.button.on("pointerdown",()=> this.toggle())
 
-this.button.on("pointerover",()=>{
-this.button.setScale(0.28)
-})
-
-this.button.on("pointerout",()=>{
-this.button.setScale(0.25)
-})
-
-// PANEL
 this.panel = scene.add.rectangle(600,350,500,350,0x000000,0.7)
 .setDepth(999)
 .setScrollFactor(0)
 .setVisible(false)
 
-// CERRAR
-this.closeButton = scene.add.text(820,200,"X",{font:"28px Arial",fill:"#fff"})
-.setDepth(1000)
-.setScrollFactor(0)
-.setInteractive()
-.setVisible(false)
-
-this.closeButton.on("pointerdown",()=>this.toggle())
-
-// SLOTS
 this.slots = []
 
 let startX = 450
@@ -51,12 +31,8 @@ for(let col=0;col<5;col++){
 let slot = scene.add.rectangle(
 startX + col*80,
 startY + row*80,
-60,
-60,
-0xffffff,
-0.15
+60,60,0xffffff,0.15
 )
-.setStrokeStyle(2,0xffffff)
 .setDepth(1000)
 .setScrollFactor(0)
 .setVisible(false)
@@ -72,8 +48,6 @@ toggle(){
 this.open = !this.open
 
 this.panel.setVisible(this.open)
-this.closeButton.setVisible(this.open)
-
 this.slots.forEach(s=>s.setVisible(this.open))
 this.icons.forEach(i=>i.setVisible(this.open))
 
@@ -84,9 +58,6 @@ addItem(texture){
 if(this.items.includes(texture)) return
 
 this.items.push(texture)
-
-// GUARDAR GLOBAL
-this.scene.game.globalState.inventory = this.items
 
 let index = this.items.length - 1
 let slot = this.slots[index]
@@ -107,7 +78,7 @@ icon.y = y
 
 icon.on("dragend",()=>{
 
-let closest = this.slots[0]
+let closest = null
 let minDist = 99999
 
 this.slots.forEach(s=>{
@@ -124,6 +95,8 @@ icon.y = closest.y
 })
 
 this.icons.push(icon)
+
+}
 
 }
 
