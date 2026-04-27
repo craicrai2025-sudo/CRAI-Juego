@@ -24,7 +24,8 @@ this.libro = this.physics.add.image(500,300,"libro").setScale(0.08)
 }
 
 // FLECHA
-this.flecha = this.add.image(150,450,"flecha")
+
+this.flecha = this.add.image(150,500,"flecha")
 .setScale(0.1)
 .setInteractive()
 
