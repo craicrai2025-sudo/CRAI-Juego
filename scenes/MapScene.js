@@ -73,6 +73,19 @@ fill:"#fff",
 wordWrap:{width:900}
 }).setVisible(false)
 
+showDialog(text){
+
+this.dialogBox.setVisible(true)
+this.dialogText.setVisible(true)
+this.dialogText.setText(text)
+
+this.input.once("pointerdown",()=>{
+this.dialogBox.setVisible(false)
+this.dialogText.setVisible(false)
+})
+
+}
+
 // INICIO AUTOMÁTICO
 this.time.delayedCall(500,()=>{
 
