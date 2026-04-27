@@ -7,45 +7,37 @@ this.items = []
 this.icons = []
 this.open = false
 
-// BOTON MALETA
+// BOTON
 this.button = scene.add.image(1100,80,"maleta")
 .setScale(0.25)
 .setDepth(1000)
 .setScrollFactor(0)
 .setInteractive()
 
-// CLICK
-this.button.on("pointerdown",()=>{
-this.toggle()
-})
+this.button.on("pointerdown",()=>this.toggle())
 
-// HOVER (FUERA DEL CLICK)
 this.button.on("pointerover",()=>{
 this.button.setScale(0.28)
-this.button.setAlpha(1)
 })
 
 this.button.on("pointerout",()=>{
 this.button.setScale(0.25)
-this.button.setAlpha(0.9)
 })
- 
+
 // PANEL
 this.panel = scene.add.rectangle(600,350,500,350,0x000000,0.7)
 .setDepth(999)
 .setScrollFactor(0)
 .setVisible(false)
 
-// BOTON CERRAR
+// CERRAR
 this.closeButton = scene.add.text(820,200,"X",{font:"28px Arial",fill:"#fff"})
 .setDepth(1000)
 .setScrollFactor(0)
 .setInteractive()
 .setVisible(false)
 
-this.closeButton.on("pointerdown",()=>{
-this.toggle()
-})
+this.closeButton.on("pointerdown",()=>this.toggle())
 
 // SLOTS
 this.slots = []
@@ -93,10 +85,12 @@ if(this.items.includes(texture)) return
 
 this.items.push(texture)
 
+// GUARDAR GLOBAL
+this.scene.game.globalState.inventory = this.items
+
 let index = this.items.length - 1
 let slot = this.slots[index]
 
-// ICONO
 let icon = this.scene.add.image(slot.x,slot.y,texture)
 .setScale(0.08)
 .setDepth(1001)
@@ -106,16 +100,14 @@ let icon = this.scene.add.image(slot.x,slot.y,texture)
 
 this.scene.input.setDraggable(icon)
 
-// DRAG
 icon.on("drag",(pointer,x,y)=>{
 icon.x = x
 icon.y = y
 })
 
-// SNAP A SLOT
 icon.on("dragend",()=>{
 
-let closest = null
+let closest = this.slots[0]
 let minDist = 99999
 
 this.slots.forEach(s=>{
@@ -126,7 +118,6 @@ closest = s
 }
 })
 
-// SNAP
 icon.x = closest.x
 icon.y = closest.y
 
