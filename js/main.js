@@ -10,9 +10,9 @@ debug: false
 }
 },
 
-scene: [MapScene, DomiciliosScene, UIScene]
+scene: [MenuScene, MapScene, DomiciliosScene, UIScene]
 }
-
+  
 const game = new Phaser.Game(config)
 
 // ESTADO GLOBAL
