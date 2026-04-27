@@ -5,29 +5,34 @@ super("MapScene")
 }
 
 preload(){
-
 this.load.image("mapa","assets/mapa.png")
 this.load.image("avatar","assets/avatar.png")
 this.load.image("libro","assets/libro.png")
-
+this.load.image("flecha","assets/flecha.png")
 }
 
 create(){
 
 this.add.image(600,350,"mapa").setDisplaySize(1200,700)
 
-// AVATAR
-this.avatar = this.physics.add.image(200,300,"avatar").setScale(0.2)
+// AVATAR (más grande)
+this.avatar = this.physics.add.image(200,300,"avatar").setScale(0.6)
 
 // LIBRO
+if(!this.game.globalState.mapa.libroRecogido){
 this.libro = this.physics.add.image(500,300,"libro").setScale(0.08)
-
-// ESTADO
-if(this.game.globalState.mapa.libroRecogido){
-this.libro.destroy()
 }
 
-// TECLAS
+// FLECHA
+this.flecha = this.add.image(150,450,"flecha")
+.setScale(0.1)
+.setInteractive()
+
+this.flecha.on("pointerdown",()=>{
+this.scene.start("DomiciliosScene")
+})
+
+// CONTROLES
 this.cursors = this.input.keyboard.createCursorKeys()
 this.keyE = this.input.keyboard.addKey("E")
 
@@ -36,9 +41,7 @@ this.iconE = this.add.text(0,0,"E",{
 font:"20px Arial",
 fill:"#fff",
 backgroundColor:"#000"
-})
-.setPadding(4)
-.setVisible(false)
+}).setPadding(4).setVisible(false)
 
 }
 
@@ -61,8 +64,6 @@ this.libro.y
 
 // POSICION E
 this.iconE.setPosition(this.avatar.x-10,this.avatar.y-60)
-
-// MOSTRAR
 this.iconE.setVisible(dist < 80)
 
 // RECOGER
@@ -71,6 +72,7 @@ if(dist < 80 && Phaser.Input.Keyboard.JustDown(this.keyE)){
 this.game.inventory.addItem("libro")
 
 this.libro.destroy()
+this.libro = null
 this.game.globalState.mapa.libroRecogido = true
 
 }
