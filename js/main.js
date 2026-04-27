@@ -8,7 +8,7 @@ default: "arcade",
 arcade: { debug: false }
 },
 
-scene: [MenuScene, MapScene, DomiciliosScene, UIScene, ComputerUI]
+scene: [MenuScene, MapScene, DomiciliosScene, UIScene]
 }
 
 const game = new Phaser.Game(config)
