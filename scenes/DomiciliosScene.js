@@ -8,6 +8,7 @@ preload(){
 this.load.image("domicilios","assets/domicilios.png")
 this.load.image("avatar","assets/avatar.png")
 this.load.image("libro","assets/libro.png")
+this.load.image("computador","assets/computador.png")
 }
 
 create(){
@@ -26,6 +27,10 @@ this.libro = this.physics.add.image(800,500,"libro").setScale(0.08)
 this.cursors = this.input.keyboard.createCursorKeys()
 this.keyE = this.input.keyboard.addKey("E")
 
+//Pantalla domicilio
+this.computador = this.physics.add.image(300,300,"computador")
+.setScale(0.3)
+  
 // ICONO E
 this.iconE = this.add.text(0,0,"E",{
 font:"20px Arial",
