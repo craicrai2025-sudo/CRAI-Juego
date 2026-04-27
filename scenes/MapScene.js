@@ -63,6 +63,23 @@ this.libro.x,
 this.libro.y
 )
 
+//DIALOGO 1
+  this.dialogBox = this.add.rectangle(600,600,1000,120,0x000000,0.8)
+.setVisible(false)
+
+this.dialogText = this.add.text(150,560,"",{
+font:"20px Arial",
+fill:"#fff",
+wordWrap:{width:900}
+}).setVisible(false)
+
+// INICIO AUTOMÁTICO
+this.time.delayedCall(500,()=>{
+
+this.showDialog("Bienvenido al CRAI. Explora y encuentra libros.")
+
+})
+
 // POSICION E
 this.iconE.setPosition(this.avatar.x-10,this.avatar.y-60)
 this.iconE.setVisible(dist < 80)
