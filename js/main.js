@@ -3,7 +3,7 @@ type: Phaser.AUTO,
 width: 1200,
 height: 700,
 
-physics: {   // 🔥 ESTO FALTABA
+physics: {
 default: "arcade",
 arcade: {
 debug: false
@@ -12,14 +12,16 @@ debug: false
 
 scene: [MenuScene, MapScene, DomiciliosScene, UIScene]
 }
-  
+
 const game = new Phaser.Game(config)
 
 // ESTADO GLOBAL
 game.globalState = {
 mapa: { libroRecogido: false },
-domicilios: { libroRecogido: false }
+domicilios: { libroRecogido: false },
+inventory: []
 }
 
-// INICIAR UI
+// INICIAR
+game.scene.start("MenuScene")
 game.scene.start("UIScene")
