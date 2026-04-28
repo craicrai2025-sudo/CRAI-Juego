@@ -8,13 +8,19 @@ default: "arcade",
 arcade: { debug: false }
 },
 
-scene: [MenuScene, MapScene, DomiciliosScene, ComputerUI, UIScene]
+scene: [MenuScene, MapScene, DomiciliosScene, UIScene]
 }
 
 const game = new Phaser.Game(config)
 
-// ESTADO GLOBAL
+// 🔥 ESTADO GLOBAL
 game.globalState = {
 mapa: { libroRecogido: false },
-domicilios: { libroRecogido: false }
+domicilios: { libroRecogido: false },
+
+player: {
+x: 600,
+y: 400
+}
+
 }
