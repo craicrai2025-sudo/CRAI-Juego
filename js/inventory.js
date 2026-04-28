@@ -7,6 +7,7 @@ this.items = []
 this.icons = []
 this.open = false
 
+// BOTON
 this.button = scene.add.image(1100,80,"maleta")
 .setScale(0.25)
 .setDepth(1000)
@@ -15,11 +16,13 @@ this.button = scene.add.image(1100,80,"maleta")
 
 this.button.on("pointerdown",()=> this.toggle())
 
+// PANEL
 this.panel = scene.add.rectangle(600,350,500,350,0x000000,0.7)
 .setDepth(999)
 .setScrollFactor(0)
 .setVisible(false)
 
+// SLOTS
 this.slots = []
 
 let startX = 450
@@ -38,6 +41,7 @@ startY + row*80,
 .setVisible(false)
 
 this.slots.push(slot)
+
 }
 }
 
@@ -48,6 +52,7 @@ toggle(){
 this.open = !this.open
 
 this.panel.setVisible(this.open)
+
 this.slots.forEach(s=>s.setVisible(this.open))
 this.icons.forEach(i=>i.setVisible(this.open))
 
@@ -89,14 +94,14 @@ closest = s
 }
 })
 
+if(closest){
 icon.x = closest.x
 icon.y = closest.y
+}
 
 })
 
 this.icons.push(icon)
-
-}
 
 }
 
