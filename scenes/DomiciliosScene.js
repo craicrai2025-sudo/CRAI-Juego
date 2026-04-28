@@ -24,7 +24,7 @@ create(){
 // FONDO
 this.add.image(600,350,"domicilios").setDisplaySize(1200,700)
 
-// 👇 PLAYER GLOBAL
+// PLAYER (usa posición global automáticamente)
 this.player = new Player(this, 300, 400)
 
 // LIBRO
@@ -53,11 +53,16 @@ backgroundColor:"#000"
 
 update(){
 
-// 👇 ACTUALIZA PLAYER
+// PLAYER (movimiento + animación + guardado posición)
 this.player.update()
 
-// VOLVER AL MAPA
+// VOLVER AL MAPA (con posición controlada)
 if(Phaser.Input.Keyboard.JustDown(this.keyBack)){
+
+// 🔥 POSICIÓN DE REGRESO AL MAPA
+this.game.globalState.player.x = 600
+this.game.globalState.player.y = 450
+
 this.scene.start("MapScene")
 }
 
@@ -77,10 +82,10 @@ this.player.sprite.x - 10,
 this.player.sprite.y - 60
 )
 
-// MOSTRAR E
+// MOSTRAR E SOLO CERCA
 this.iconE.setVisible(dist < 80)
 
-// RECOGER
+// RECOGER LIBRO
 if(dist < 80 && Phaser.Input.Keyboard.JustDown(this.keyE)){
 
 this.game.inventory.addItem("libro")
