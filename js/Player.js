@@ -4,15 +4,18 @@ constructor(scene, x, y){
 
 this.scene = scene
 
-this.sprite = scene.physics.add.sprite(x,y,"walk1")
+// USAR POSICIÓN GLOBAL
+let startX = scene.game.globalState.player.x
+let startY = scene.game.globalState.player.y
+
+this.sprite = scene.physics.add.sprite(startX, startY, "walk1")
 .setScale(0.6)
 
-// ANIMACIÓN MANUAL
+// ANIMACIÓN
 this.frames = ["walk1","walk2","walk3","walk4","walk5","walk6"]
 this.currentFrame = 0
 this.timer = 0
 
-// CONTROLES
 this.cursors = scene.input.keyboard.createCursorKeys()
 
 }
@@ -58,10 +61,12 @@ this.timer = 0
 }
 
 }else{
-
 this.sprite.setTexture("walk1")
-
 }
+
+// 🔥 GUARDAR POSICIÓN SIEMPRE
+this.scene.game.globalState.player.x = this.sprite.x
+this.scene.game.globalState.player.y = this.sprite.y
 
 }
 
