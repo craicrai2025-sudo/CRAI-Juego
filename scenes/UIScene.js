@@ -1,17 +1,23 @@
-class UIScene extends Phaser.Scene{
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Juego CRAI</title>
 
-constructor(){
-super("UIScene")
-}
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.js"></script>
 
-preload(){
-this.load.image("maleta","assets/maleta.png")
-}
+</head>
+<body>
 
-create(){
+<script src="js/inventory.js"></script>
 
-this.inventory = new Inventory(this)
-this.game.inventory = this.inventory
+<script src="scenes/MenuScene.js"></script>
+<script src="scenes/MapScene.js"></script>
+<script src="scenes/DomiciliosScene.js"></script>
+<script src="scenes/ComputerUI.js"></script> <!-- 🔥 FALTABA -->
+<script src="scenes/UIScene.js"></script>
 
-}
-}
+<script src="js/main.js"></script>
+
+</body>
+</html>
