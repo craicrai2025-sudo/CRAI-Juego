@@ -9,6 +9,12 @@ this.load.image("mapa","assets/mapa.png")
 this.load.image("avatar","assets/avatar.png")
 this.load.image("libro","assets/libro.png")
 this.load.image("flecha","assets/flecha.png")
+this.load.image("walk1","assets/walk1.png")
+this.load.image("walk2","assets/walk2.png")
+this.load.image("walk3","assets/walk3.png")
+this.load.image("walk4","assets/walk4.png")
+this.load.image("walk5","assets/walk5.png")
+this.load.image("walk6","assets/walk6.png")
 }
 
 create(){
