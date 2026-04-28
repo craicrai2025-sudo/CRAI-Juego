@@ -47,7 +47,7 @@ backgroundColor:"#000"
 
 update(){
 
-// VOLVER AL MAPA
+// VOLVER
 if(Phaser.Input.Keyboard.JustDown(this.keyBack)){
 this.scene.start("MapScene")
 }
@@ -58,7 +58,7 @@ if(this.cursors.right.isDown) this.avatar.x += 3
 if(this.cursors.up.isDown) this.avatar.y -= 3
 if(this.cursors.down.isDown) this.avatar.y += 3
 
-// SI YA NO HAY LIBRO
+// SI NO HAY LIBRO
 if(!this.libro) return
 
 let dist = Phaser.Math.Distance.Between(
@@ -68,10 +68,10 @@ this.libro.x,
 this.libro.y
 )
 
-// POSICIÓN ICONO
+// POSICIÓN E
 this.iconE.setPosition(this.avatar.x-10,this.avatar.y-60)
 
-// MOSTRAR E
+// MOSTRAR
 this.iconE.setVisible(dist < 80)
 
 // RECOGER
