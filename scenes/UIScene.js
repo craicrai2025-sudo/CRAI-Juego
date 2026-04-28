@@ -1,41 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Juego CRAI</title>
+class UIScene extends Phaser.Scene {
 
-<script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.js"></script>
-
-</head>
-<body>
-
-<script src="js/inventory.js"></script>
-
-<script src="scenes/MenuScene.js"></script>
-<script src="scenes/MapScene.js"></script>
-<script src="scenes/DomiciliosScene.js"></script>
-<script src="scenes/ComputerUI.js"></script> <!-- 🔥 FALTABA -->
-<script src="scenes/UIScene.js"></script>
-const config = {
-type: Phaser.AUTO,
-width: 1200,
-height: 700,
-
-physics: {
-default: "arcade",
-arcade: { debug: false }
-},
-
-scene: [MenuScene, MapScene, DomiciliosScene, UIScene, ComputerUI] // 🔥 AQUÍ
+constructor(){
+super("UIScene")
 }
 
-const game = new Phaser.Game(config)
+preload(){
 
-game.globalState = {
-mapa: { libroRecogido: false },
-domicilios: { libroRecogido: false }
+// ICONO INVENTARIO (maleta)
+this.load.image("maleta","assets/maleta.png")
+
 }
-<script src="js/main.js"></script>
 
-</body>
-</html>
+create(){
+
+// CREAR INVENTARIO GLOBAL (UNA SOLA VEZ)
+if(!this.game.inventory){
+this.inventory = new Inventory(this)
+this.game.inventory = this.inventory
+}else{
+this.inventory = this.game.inventory
+}
+
+// IMPORTANTE: asegurar que el inventario quede visible siempre
+this.children.bringToTop(this.inventory.button)
+
+}
+
+update(){
+// No necesitas nada aquí por ahora
+}
+
+}
