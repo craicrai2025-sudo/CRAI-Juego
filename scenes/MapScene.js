@@ -25,30 +25,37 @@ create(){
 // FONDO
 this.add.image(600,350,"mapa").setDisplaySize(1200,700)
 
-// 👇 PLAYER GLOBAL
+// PLAYER (usa posición global automáticamente)
 this.player = new Player(this, 600, 400)
 
 // LIBRO
 this.libro = this.physics.add.image(800,450,"libro").setScale(0.08)
 
+// SI YA FUE RECOGIDO
 if(this.game.globalState.mapa.libroRecogido){
 this.libro.destroy()
 this.libro = null
 }
 
-// FLECHA
+// FLECHA (CAMBIO DE ESCENA)
 this.flecha = this.add.image(200,500,"flecha")
 .setScale(0.15)
 .setInteractive()
 
 this.flecha.on("pointerdown",()=>{
+
+// 🔥 POSICIÓN DE ENTRADA AL OTRO MAPA
+this.game.globalState.player.x = 250
+this.game.globalState.player.y = 400
+
 this.scene.start("DomiciliosScene")
+
 })
 
 // INPUT
 this.keyE = this.input.keyboard.addKey("E")
 
-// ICONO E (encima del jugador)
+// ICONO E (minimalista)
 this.iconE = this.add.text(0,0,"E",{
 font:"18px Arial",
 fill:"#fff",
@@ -61,7 +68,7 @@ backgroundColor:"#000"
 
 update(){
 
-// 👇 ACTUALIZA PLAYER (movimiento + animación)
+// PLAYER (movimiento + animación + guardado posición)
 this.player.update()
 
 // SI NO HAY LIBRO
@@ -74,16 +81,16 @@ this.libro.x,
 this.libro.y
 )
 
-// POSICIÓN ICONO (sobre el personaje)
+// POSICIÓN DE LA E (encima del personaje)
 this.iconE.setPosition(
 this.player.sprite.x - 10,
 this.player.sprite.y - 60
 )
 
-// MOSTRAR E
+// MOSTRAR E SOLO CERCA
 this.iconE.setVisible(dist < 80)
 
-// RECOGER
+// RECOGER LIBRO
 if(dist < 80 && Phaser.Input.Keyboard.JustDown(this.keyE)){
 
 this.game.inventory.addItem("libro")
