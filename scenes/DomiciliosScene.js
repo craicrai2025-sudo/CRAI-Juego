@@ -7,8 +7,15 @@ super("DomiciliosScene")
 preload(){
 
 this.load.image("domicilios","assets/centro domicilios.png")
-this.load.image("avatar","assets/avatar.png")
 this.load.image("libro","assets/libro.png")
+
+// FRAMES DEL PERSONAJE
+this.load.image("walk1","assets/walk1.png")
+this.load.image("walk2","assets/walk2.png")
+this.load.image("walk3","assets/walk3.png")
+this.load.image("walk4","assets/walk4.png")
+this.load.image("walk5","assets/walk5.png")
+this.load.image("walk6","assets/walk6.png")
 
 }
 
@@ -17,8 +24,8 @@ create(){
 // FONDO
 this.add.image(600,350,"domicilios").setDisplaySize(1200,700)
 
-// AVATAR
-this.avatar = this.physics.add.image(300,400,"avatar").setScale(0.6)
+// 👇 PLAYER GLOBAL
+this.player = new Player(this, 300, 400)
 
 // LIBRO
 this.libro = this.physics.add.image(900,500,"libro").setScale(0.08)
@@ -30,7 +37,6 @@ this.libro = null
 }
 
 // INPUT
-this.cursors = this.input.keyboard.createCursorKeys()
 this.keyE = this.input.keyboard.addKey("E")
 this.keyBack = this.input.keyboard.addKey("ESC")
 
@@ -47,31 +53,31 @@ backgroundColor:"#000"
 
 update(){
 
-// VOLVER
+// 👇 ACTUALIZA PLAYER
+this.player.update()
+
+// VOLVER AL MAPA
 if(Phaser.Input.Keyboard.JustDown(this.keyBack)){
 this.scene.start("MapScene")
 }
-
-// MOVIMIENTO
-if(this.cursors.left.isDown) this.avatar.x -= 3
-if(this.cursors.right.isDown) this.avatar.x += 3
-if(this.cursors.up.isDown) this.avatar.y -= 3
-if(this.cursors.down.isDown) this.avatar.y += 3
 
 // SI NO HAY LIBRO
 if(!this.libro) return
 
 let dist = Phaser.Math.Distance.Between(
-this.avatar.x,
-this.avatar.y,
+this.player.sprite.x,
+this.player.sprite.y,
 this.libro.x,
 this.libro.y
 )
 
-// POSICIÓN E
-this.iconE.setPosition(this.avatar.x-10,this.avatar.y-60)
+// POSICIÓN ICONO (sobre el personaje)
+this.iconE.setPosition(
+this.player.sprite.x - 10,
+this.player.sprite.y - 60
+)
 
-// MOSTRAR
+// MOSTRAR E
 this.iconE.setVisible(dist < 80)
 
 // RECOGER
