@@ -38,7 +38,7 @@ this.libro = null
 }
 
 // FLECHA (CAMBIO DE ESCENA)
-this.flecha = this.add.image(200,500,"flecha")
+this.flecha = this.add.image(300,420,"flecha")
 .setScale(0.15)
 .setInteractive()
 
