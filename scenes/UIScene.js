@@ -16,7 +16,25 @@
 <script src="scenes/DomiciliosScene.js"></script>
 <script src="scenes/ComputerUI.js"></script> <!-- 🔥 FALTABA -->
 <script src="scenes/UIScene.js"></script>
+const config = {
+type: Phaser.AUTO,
+width: 1200,
+height: 700,
 
+physics: {
+default: "arcade",
+arcade: { debug: false }
+},
+
+scene: [MenuScene, MapScene, DomiciliosScene, UIScene, ComputerUI] // 🔥 AQUÍ
+}
+
+const game = new Phaser.Game(config)
+
+game.globalState = {
+mapa: { libroRecogido: false },
+domicilios: { libroRecogido: false }
+}
 <script src="js/main.js"></script>
 
 </body>
